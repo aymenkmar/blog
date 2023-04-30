@@ -7,7 +7,7 @@
     <?php
         session_start();
         // Check if user is logged in
-        if(!isset($_SESSION["username"])){
+        if(!isset($_SESSION["id"])){
             header("Location: login.php");
             exit();
         }
@@ -19,28 +19,32 @@
     
     //ajouter publication
      <h1>Ajouter une publication</h1>
-    <form action="ajouter_publication.php" method="post">
+<form action="ajouter_publication.php" method="post">
     <input type="text" name="title" placeholder="Titre" required><br>
     <textarea name="content" placeholder="Quoi de neuf ?" rows="4" cols="50" required></textarea><br>
     <button type="submit" name="submit">Publier</button>
-  </form>
+</form>
 
-  <h1>Publications</h1>
+<h1>Publications</h1>
 <?php
-  require_once 'config.php';
+require_once 'config.php';
 
-  $sql = "SELECT * FROM publications ORDER BY created_at DESC";
-  $stmt = $conn->prepare($sql);
-  $stmt->execute();
+$sql = "SELECT publications.*, users.first_name, users.last_name FROM publications LEFT JOIN users ON publications.user_id = users.id ORDER BY created_at DESC";
+$stmt = $conn->prepare($sql);
+$stmt->execute();
 
-  while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     echo "<div>";
     echo "<h2>" . htmlspecialchars($row['title']) . "</h2>";
     echo "<p>" . htmlspecialchars($row['content']) . "</p>";
-    echo "<small>" . $row['created_at'] . "</small>";
+    if ($row['first_name'] !== NULL && $row['last_name'] !== NULL) {
+        echo "<small>Publié par " . htmlspecialchars($row['first_name']) . " " . htmlspecialchars($row['last_name']) . " le " . $row['created_at'] . "</small>";
+    } else {
+        echo "<small>Publié le " . $row['created_at'] . "</small>";
+    }
     echo "</div>";
-  }
-  ?>
+}
+?>
 
     <form action="logout.php" method="post">
         <button type="submit">Logout</button>

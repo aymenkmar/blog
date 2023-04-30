@@ -1,21 +1,29 @@
 <?php
 require_once 'config.php';
+session_start();
+
+if (!isset($_SESSION["id"])) {
+    header("Location: login.php");
+    exit();
+}
 
 if (isset($_POST['submit'])) {
-  $title = $_POST['title'];
-  $content = $_POST['content'];
+    $user_id = $_SESSION["id"];
+    $title = $_POST['title'];
+    $content = $_POST['content'];
 
-  try {
-    $sql = "INSERT INTO publications (title, content) VALUES (:title, :content)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bindParam(':title', $title);
-    $stmt->bindParam(':content', $content);
+    try {
+        $sql = "INSERT INTO publications (user_id, title, content) VALUES (:user_id, :title, :content)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':user_id', $user_id);
+        $stmt->bindParam(':title', $title);
+        $stmt->bindParam(':content', $content);
 
-    $stmt->execute();
+        $stmt->execute();
 
-    header("Location: " . $_SERVER['HTTP_REFERER']);
-  } catch(PDOException $e) {
-    echo "Erreur: " . $e->getMessage();
-  }
+        header("Location: " . $_SERVER['HTTP_REFERER']);
+    } catch(PDOException $e) {
+        echo "Erreur: " . $e->getMessage();
+    }
 }
 ?>
