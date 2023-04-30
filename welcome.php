@@ -164,9 +164,9 @@
           <?php
   require_once 'config.php';
 
-  $sql = "SELECT * FROM publications ORDER BY created_at DESC";
-  $stmt = $conn->prepare($sql);
-  $stmt->execute();
+$sql = "SELECT publications.*, users.first_name, users.last_name FROM publications LEFT JOIN users ON publications.user_id = users.id ORDER BY created_at DESC";
+$stmt = $conn->prepare($sql);
+$stmt->execute();
 
   while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
   
