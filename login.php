@@ -2,51 +2,54 @@
 <?php
     session_start();
 
+    require_once "config.php";
+
     // Check if the user is already logged in
 
 
     // Process the login form when submitted
     if($_SERVER["REQUEST_METHOD"] == "POST") {
         // Retrieve the login credentials from the form
-        $username = $_POST["username"];
+        $email = $_POST["email"];
         $password = $_POST["password"];
 
-        // Connect to the database
-        $host = "localhost";
-        $user = "root";
-        $pass = "0123456789+aZ";
-        $dbname = "blog_db";
-        $conn = mysqli_connect($host, $user, $pass, $dbname);
+        try {
+            // Retrieve the user's information from the database
+            $sql = "SELECT id, first_name, last_name FROM users WHERE email = :email AND password = :password";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':email', $email);
+            $stmt->bindParam(':password', $password);
+            $stmt->execute();
 
-        // Check if the connection was successful
-        if(!$conn) {
-            die("Connection failed: " . mysqli_connect_error());
-        }
+            if($stmt->rowCount() == 1) {
+                // If the login credentials are correct, store the user's information in the session
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                $_SESSION["id"] = $row["id"];
+                $_SESSION["email"] = $email;
+                $_SESSION["first_name"] = $row["first_name"];
+                $_SESSION["last_name"] = $row["last_name"];
 
-        // Retrieve the user's information from the database
-        $sql = "SELECT id, first_name, last_name FROM users WHERE username = '$username' AND password = '$password'";
-        $result = mysqli_query($conn, $sql);
-
-        if(mysqli_num_rows($result) == 1) {
-            // If the login credentials are correct, store the user's information in the session
-            $row = mysqli_fetch_assoc($result);
-            $_SESSION["id"] = $row["id"];
-            $_SESSION["username"] = $username;
-            $_SESSION["first_name"] = $row["first_name"];
-            $_SESSION["last_name"] = $row["last_name"];
-
-            // Redirect the user to the welcome page
-            header("Location: welcome.php");
-            exit();
-        } else {
-            // If the login credentials are incorrect, display an error message
-            $error = "<p>Invalid username or password</p>";
+                // Redirect the user to the welcome page
+                header("Location: welcome.php");
+                exit();
+            } else {
+                // If the login credentials are incorrect, display an error message
+                $error = "<p>Invalid email or password</p>";
+            }
+        } catch(PDOException $e) {
+            echo "Error: " . $e->getMessage();
         }
 
         // Close the database connection
-        mysqli_close($conn);
+        $conn = null;
     }
-    ?>
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<!-- Le reste du code HTML reste inchangé -->
+
+
 
 
 <!DOCTYPE html>
@@ -164,7 +167,8 @@
 
           <div class="col-lg-7">
           <div>
-          <form accept-charset="utf-8" method="post" id="UserLoginForm" class="form-signin" action="">    	        <input type="text" id="username" autofocus="autofocus" placeholder="Username" class="form-control" name="username"></br>	
+          <form accept-charset="utf-8" method="post" id="UserLoginForm" class="form-signin" action="">    	        <input type="text" id="email" autofocus="autofocus" placeholder="Email" class="form-control" name="email">
+</br>	
         <input type="password" id="password" placeholder="Password" class="form-control" name="password"></br>			
         <center>
         <button type="submit" class="btn btn-lg btn-info btn-block">
