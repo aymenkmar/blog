@@ -20,16 +20,14 @@ if (isset($_POST['likeme'])) {
         echo "Erreur: " . $e->getMessage();
     }
 }
-if (isset($_POST['dislike'])) {
+if (isset($_POST['dislikeme'])) {
     $id = $_POST['post_id'];
-    $likes = $_POST['likes']-1;
+    $dislikes = $_POST['dislikes']+1;
     try {
-        
-        //$s = "UPDATE publications SET likes = '$likes' WHERE id = $id";
-        $sql = "UPDATE `publications` SET `likes`='$likes' WHERE `id`='$id'"; 
+        $sql = "UPDATE `publications` SET `dislikes`='$dislikes' WHERE `post_id`='$id'"; 
         $result = $conn->query($sql);
         header('Location: ' . $_SERVER['HTTP_REFERER']);
-            exit;
+        exit;
     } catch(PDOException $e) {
         echo "Erreur: " . $e->getMessage();
     }
