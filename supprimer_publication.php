@@ -10,7 +10,7 @@ if (!isset($_SESSION["id"])) {
 if (isset($_GET['id'])) {
     $publication_id = $_GET['id'];
 
-    $sql = "SELECT * FROM publications WHERE id = :id AND user_id = :user_id";
+    $sql = "SELECT * FROM publications WHERE post_id = :id AND user_id = :user_id";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':id', $publication_id);
     $stmt->bindParam(':user_id', $_SESSION['id']);
@@ -25,9 +25,8 @@ if (isset($_GET['id'])) {
     try {
         $sql = "DELETE FROM publications WHERE post_id = :id AND user_id = :user_id";
         $stmt = $conn->prepare($sql);
-        $stmt->bindParam(':post_id', $id);
-        $stmt->bindParam(':user_id', $user_id);
-
+        $stmt->bindParam(':id', $publication_id);
+        $stmt->bindParam(':user_id', $_SESSION['id']);
         $stmt->execute();
 
         header("Location: posts.php");
