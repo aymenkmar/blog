@@ -2,7 +2,7 @@
 require_once 'config.php';
 session_start();
 
-if (!isset($_SESSION["id"])) {
+if (!isset($_SESSION["login_active"])) {
     header("Location: login.php");
     exit();
 }
@@ -81,37 +81,9 @@ if (!$user) {
         <h1>HeroBiz<span>.</span></h1>
       </a>
 
-      <nav id="navbar" class="navbar">
-        <ul>
-          <li><a class="nav-link scrollto" href="index.php">Home</a></li>
-          <li><a class="nav-link scrollto" href="profile.php">Profile</a></li>
-          <?php 
-          echo '<li><a href="posts.php">Posts</a></li>';
-          if((isset($_SESSION["first_name"]))){
-      
-            $link = $_GET["link"];
-            if($link == "logout")
-            {
-              session_start();
-              session_unset();
-              session_destroy();
-              header("Location: index.php");
-              exit();
-            }
-            echo ' <a href="index.php?link=logout">Logout</a></li>';
-           
-           }else{
-           
-           echo '<li><a class="nav-link scrollto" href="login.php">Login</a></li>
-           <li><a class="nav-link scrollto" href="register.php">Register</a></li>';
-           
-           }
+      <?php
+          include 'nav.php' ;
           ?>
-          
-          <li><a class="nav-link scrollto" href="index.html#contact">Contact</a></li>
-        </ul>
-        <i class="bi bi-list mobile-nav-toggle d-none"></i>
-      </nav><!-- .navbar -->
     </div>
   </header><!-- End Header -->
 

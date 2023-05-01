@@ -1,6 +1,6 @@
 <?php
-    session_start();
-
+   
+   session_start();
     require_once "config.php";
 
     // Check if the user is already logged in
@@ -23,11 +23,8 @@
             if($stmt->rowCount() == 1) {
                 // If the login credentials are correct, store the user's information in the session
                 $row = $stmt->fetch(PDO::FETCH_ASSOC);
-                $_SESSION["id"] = $row["id"];
-                $_SESSION["email"] = $email;
-                $_SESSION["first_name"] = $row["first_name"];
-                $_SESSION["last_name"] = $row["last_name"];
-
+      
+                $_SESSION['login_active'] = 1 ;
                 // Redirect the user to the welcome page
                 header("Location: welcome.php");
                 exit();
@@ -111,38 +108,7 @@
         <h1>HeroBiz<span>.</span></h1>
       </a>
 
-      <nav id="navbar" class="navbar">
-        <ul>
-          
-          <?php 
-       
-            if(!isset($_SESSION["id"])){
-               echo'<li><a class="nav-link scrollto" href="index.php">Home</a></li>';
-            echo '<li><a class="nav-link scrollto" href="login.php">Login</a></li>';
-            echo'<li><a class="nav-link scrollto" href="register.php">Register</a></li>';
-            echo'<li><a class="nav-link scrollto" href="index.html#contact">Contact</a></li>';
-           }else{
-            echo '<li><a class="nav-link scrollto" href="index.php">Home</a></li>';
-            echo '<li><a href="posts.php">Posts</a></li>';
-            $link = $_GET["link"];
-            if($link == "logout")
-            {
-                session_start();
-                session_unset();
-                session_destroy();
-                header("Location: index.php");
-                exit();
-            }
-            echo '<li><a href="index.php?link=logout">Logout</a></li>';
- echo'<li><a class="nav-link scrollto" href="index.html#contact">Contact</a></li>';
-           
-           }
-          ?>
-          
-         
-        </ul>
-        <i class="bi bi-list mobile-nav-toggle d-none"></i>
-      </nav><!-- .navbar -->
+      <?php include 'nav.php' ?>
     </div>
   </header><!-- End Header -->
 

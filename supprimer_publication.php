@@ -2,7 +2,7 @@
 require_once 'config.php';
 session_start();
 
-if (!isset($_SESSION["id"])) {
+if (!isset($_SESSION["login_active"])) {
     header("Location: login.php");
     exit();
 }
