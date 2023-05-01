@@ -150,10 +150,14 @@ $stmt->execute();
                 <input type="submit"  name="likeme" value="Like">
                 </form>
            </li>';
-  echo'             <li class="list-inline-item g-mr-20">';
+   echo'             <li class="list-inline-item g-mr-20">';
   echo'               <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">';
   echo'                 <i class="fa fa-thumbs-down g-pos-rel g-top-1 g-mr-3"></i>
-                  Dislikes
+                  <form method="post" action="like.php">
+                <input type="hidden" name="dislikes" value="'. $row['dislikes'].'">
+                <input type="hidden" name="post_id" value="'. $row['post_id'] .'">
+                <input type="submit"  name="dislikeme" value="Dislike">
+                </form>
                 </a>
               </li>';
  
