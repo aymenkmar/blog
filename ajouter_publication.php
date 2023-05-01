@@ -3,7 +3,7 @@ require_once 'config.php';
 session_start();
 
 if (isset($_POST['submit'])) {
-    $user_id = $_SESSION["id"];
+    $user_id = $_SESSION['login_active'];
     $title = $_POST['title'];
     $content = $_POST['content'];
 

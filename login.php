@@ -24,7 +24,7 @@
                 // If the login credentials are correct, store the user's information in the session
                 $row = $stmt->fetch(PDO::FETCH_ASSOC);
       
-                $_SESSION['login_active'] = 1 ;
+                $_SESSION['login_active'] = $row['id'] ;
                 // Redirect the user to the welcome page
                 header("Location: welcome.php");
                 exit();

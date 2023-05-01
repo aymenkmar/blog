@@ -132,7 +132,7 @@
           <?php
   require_once 'config.php';
 
-$sql = "SELECT publications.*, users.first_name, users.last_name FROM publications LEFT JOIN users ON publications.user_id = users.id where users.id = ".$_SESSION["id"]." ORDER BY created_at DESC";
+$sql = "SELECT publications.*, users.first_name, users.last_name FROM publications LEFT JOIN users ON publications.user_id = users.id where users.id = ".$_SESSION['login_active']." ORDER BY created_at DESC";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 
