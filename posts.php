@@ -105,6 +105,7 @@
       <nav id="navbar" class="navbar">
         <ul>
           <li><a class="nav-link scrollto" href="index.php">Home</a></li>
+          <li><a class="nav-link scrollto" href="profile.php">Profile</a></li>
           <?php 
           echo '<li><a href="posts.php">Posts</a></li>';
           if((isset($_SESSION["first_name"]))){
@@ -203,13 +204,19 @@ $stmt->execute();
     </li>';
 
     if (isset($_SESSION['id']) && $_SESSION['id'] == $row['user_id']) {
-        echo '<li class="list-inline-item g-mr-20">';
-        echo '<a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="modifier_publication.php?id=' . $row['id'] . '">';
-        echo '<i class="fa fa-pencil g-pos-rel g-top-1 g-mr-3"></i>
-            Modifier
-            </a>
-        </li>';
-    }
+    echo '<li class="list-inline-item g-mr-20">';
+    echo '<a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="modifier_publication.php?id=' . $row['id'] . '">';
+    echo '<i class="fa fa-pencil g-pos-rel g-top-1 g-mr-3"></i>
+        Modifier
+        </a>
+    </li>';
+    echo '<li class="list-inline-item g-mr-20">';
+    echo '<a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="supprimer_publication.php?id=' . $row['id'] . '">';
+    echo '<i class="fa fa-trash g-pos-rel g-top-1 g-mr-3"></i>
+        Supprimer
+        </a>
+    </li>';
+}
 
     echo '</ul>';
     echo '</div>';
