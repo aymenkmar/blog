@@ -8,63 +8,55 @@ if (!isset($_SESSION["id"])) {
 }
 
 if (isset($_GET['id'])) {
-    $id = $_GET['id'];
+    $publication_id = $_GET['id'];
 
-    // Retrieve publication info
-    try {
-        $sql = "SELECT * FROM publications WHERE id = :id AND user_id = :user_id";
-        $stmt = $conn->prepare($sql);
-        $stmt->bindParam(':id', $id);
-        $stmt->bindParam(':user_id', $_SESSION['id']);
-        $stmt->execute();
+    $sql = "SELECT * FROM publications WHERE id = :id AND user_id = :user_id";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':id', $publication_id);
+    $stmt->bindParam(':user_id', $_SESSION['id']);
+    $stmt->execute();
+    $publication = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($stmt->rowCount() == 0) {
-            header("Location: welcome.php");
-            exit();
+    if (!$publication) {
+        echo "Publication introuvable ou accès non autorisé.";
+        exit();
+    }
+
+    if (isset($_POST['submit'])) {
+        $title = $_POST['title'];
+        $content = $_POST['content'];
+
+        try {
+            $sql = "UPDATE publications SET title = :title, content = :content, updated_at = NOW() WHERE id = :id";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':title', $title);
+            $stmt->bindParam(':content', $content);
+            $stmt->bindParam(':id', $publication_id);
+
+            $stmt->execute();
+
+            header("Location: posts.php");
+        } catch(PDOException $e) {
+            echo "Erreur: " . $e->getMessage();
         }
-
-        $publication = $stmt->fetch(PDO::FETCH_ASSOC);
-    } catch(PDOException $e) {
-        echo "Erreur: " . $e->getMessage();
     }
 } else {
-    header("Location: welcome.php");
-    exit();
-}
-
-if (isset($_POST['submit'])) {
-    $title = $_POST['title'];
-    $content = $_POST['content'];
-
-    // Update publication info
-    try {
-        $sql = "UPDATE publications SET title = :title, content = :content WHERE id = :id AND user_id = :user_id";
-        $stmt = $conn->prepare($sql);
-        $stmt->bindParam(':title', $title);
-        $stmt->bindParam(':content', $content);
-        $stmt->bindParam(':id', $id);
-        $stmt->bindParam(':user_id', $_SESSION['id']);
-        $stmt->execute();
-
-        header("Location: welcome.php");
-    } catch(PDOException $e) {
-        echo "Erreur: " . $e->getMessage();
-    }
+    header("Location: index.php");
 }
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <title>Modifier publication</title>
+    <meta charset="UTF-8">
+    <title>Modifier la publication</title>
 </head>
 <body>
-    <h1>Modifier publication</h1>
-    <form action="modifier_publication.php?id=<?php echo $publication['id']; ?>" method="post">
-        <input type="text" name="title" placeholder="Titre" value="<?php echo htmlspecialchars($publication['title']); ?>" required><br>
-        <textarea name="content" placeholder="Quoi de neuf ?" rows="4" cols="50" required><?php echo htmlspecialchars($publication['content']); ?></textarea><br>
-        <button type="submit" name="submit">Enregistrer</button>
-    </form>
+<h1>Modifier la publication</h1>
+<form action="modifier_publication.php?id=<?php echo $publication_id; ?>" method="post">
+    <input type="text" name="title" placeholder="Titre" value="<?php echo htmlspecialchars($publication['title']); ?>" required><br>
+    <textarea name="content" placeholder="Quoi de neuf ?" rows="4" cols="50" required><?php echo htmlspecialchars($publication['content']); ?></textarea><br>
+    <button type="submit" name="submit">Mettre à jour</button>
+</form>
 </body>
 </html>
-

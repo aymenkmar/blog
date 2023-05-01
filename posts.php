@@ -167,39 +167,54 @@ $sql = "SELECT publications.*, users.first_name, users.last_name FROM publicatio
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 
-  while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-  
-  echo'     <div class="media g-mb-30 media-comment">';
-  echo'          <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">';
-  echo'           <div class="g-mb-15">';
+ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    echo '<div class="media g-mb-30 media-comment">';
+    echo '<div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">';
+    echo '<div class="g-mb-15">';
 
-  if ($row['first_name'] !== NULL && $row['last_name'] !== NULL) {
-    echo '<h5 class="h5 g-color-gray-dark-v1 mb-0"><small>Publié par ' . htmlspecialchars($row['first_name']) . ' ' . htmlspecialchars($row['last_name']) . ' le ' . $row['created_at'] . '</small></h5>';
-} else {
-    echo '<h5 class="h5 g-color-gray-dark-v1 mb-0"><small>Publié le ' . $row['created_at'] . '</small>';
+    if ($row['first_name'] !== NULL && $row['last_name'] !== NULL) {
+        if ($row['updated_at'] !== NULL) {
+            echo '<h5 class="h5 g-color-gray-dark-v1 mb-0"><small>Modifié par ' . htmlspecialchars($row['first_name']) . ' ' . htmlspecialchars($row['last_name']) . ' le ' . $row['updated_at'] . '</small></h5>';
+        } else {
+            echo '<h5 class="h5 g-color-gray-dark-v1 mb-0"><small>Publié par ' . htmlspecialchars($row['first_name']) . ' ' . htmlspecialchars($row['last_name']) . ' le ' . $row['created_at'] . '</small></h5>';
+        }
+    } else {
+        if ($row['updated_at'] !== NULL) {
+            echo '<h5 class="h5 g-color-gray-dark-v1 mb-0"><small>Modifié le ' . $row['updated_at'] . '</small></h5>';
+        } else {
+            echo '<h5 class="h5 g-color-gray-dark-v1 mb-0"><small>Publié le ' . $row['created_at'] . '</small></h5>';
+        }
+    }
+    echo '</div>';
+    echo '<p>' . htmlspecialchars($row['title']) . '</p>';
+    echo '<p>' . htmlspecialchars($row['content']) . '</p>';
+    echo '<ul class="list-inline d-sm-flex my-0">';
+    echo '<li class="list-inline-item g-mr-20">';
+    echo '<a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">';
+    echo '<i class="fa fa-thumbs-up g-pos-rel g-top-1 g-mr-3"></i>
+        178
+        </a>
+    </li>';
+    echo '<li class="list-inline-item g-mr-20">';
+    echo '<a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">';
+    echo '<i class="fa fa-thumbs-down g-pos-rel g-top-1 g-mr-3"></i>
+        34
+        </a>
+    </li>';
+
+    if (isset($_SESSION['id']) && $_SESSION['id'] == $row['user_id']) {
+        echo '<li class="list-inline-item g-mr-20">';
+        echo '<a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="modifier_publication.php?id=' . $row['id'] . '">';
+        echo '<i class="fa fa-pencil g-pos-rel g-top-1 g-mr-3"></i>
+            Modifier
+            </a>
+        </li>';
+    }
+
+    echo '</ul>';
+    echo '</div>';
+    echo '</div>';
 }
-  echo'           </div>';
-  echo'           <p>'.htmlspecialchars($row['title']) .'</p>';   
-  echo'           <p>'.htmlspecialchars($row['content']) .'</p>';   
-  echo'           <ul class="list-inline d-sm-flex my-0">';
-  echo'             <li class="list-inline-item g-mr-20">';
-  echo'               <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">';
-  echo'                 <i class="fa fa-thumbs-up g-pos-rel g-top-1 g-mr-3"></i>
-               178
-                </a>
-           </li>';
-  echo'             <li class="list-inline-item g-mr-20">';
-  echo'               <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">';
-  echo'                 <i class="fa fa-thumbs-down g-pos-rel g-top-1 g-mr-3"></i>
-                  34
-                </a>
-              </li>';
- 
-  echo'           </ul>';
-  echo'         </div>';
-  echo'     </div>';
-
-  }
   
   ?>
         </div>
