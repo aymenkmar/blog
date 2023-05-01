@@ -1,4 +1,3 @@
-
 <?php
     session_start();
 
@@ -13,12 +12,13 @@
         $email = $_POST["email"];
         $password = $_POST["password"];
 
-        // Connect to the database
-        $host = "localhost";
-        $user = "root";
-        $pass = "0123456789+aZ";
-        $dbname = "blog_db";
-        $conn = mysqli_connect($host, $user, $pass, $dbname);
+        try {
+            // Retrieve the user's information from the database
+            $sql = "SELECT id, first_name, last_name FROM users WHERE email = :email AND password = :password";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':email', $email);
+            $stmt->bindParam(':password', $password);
+            $stmt->execute();
 
             if($stmt->rowCount() == 1) {
                 // If the login credentials are correct, store the user's information in the session
@@ -166,7 +166,8 @@
 
           <div class="col-lg-7">
           <div>
-          <form accept-charset="utf-8" method="post" id="UserLoginForm" class="form-signin" action="">    	        <input type="text" id="email" autofocus="autofocus" placeholder="Email" class="form-control" name="email">
+          <form accept-charset="utf-8" method="post" id="UserLoginForm" class="form-signin" action="">   
+             	        <input type="text" id="email" autofocus="autofocus" placeholder="Email" class="form-control" name="email">
 </br>	
         <input type="password" id="password" placeholder="Password" class="form-control" name="password"></br>			
         <center>
