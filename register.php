@@ -1,56 +1,54 @@
 <?php
-	// Check if the form was submitted
-	if($_SERVER["REQUEST_METHOD"] == "POST") {
-		// Retrieve the form data
-		$first_name = $_POST["first_name"];
-		$last_name = $_POST["last_name"];
-		$birthday = $_POST["birthday"];
-		$email = $_POST["email"];
-		$username = $_POST["username"];
-		$password = $_POST["password"];
-		$confirm_password = $_POST["confirm_password"];
+require_once('config.php');
 
-		// Validate the form data
-		if($password !== $confirm_password) {
-			echo "Password and confirmation password do not match.";
-			exit();
-		}
+// Check if the form was submitted
+if($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Retrieve the form data
+    $first_name = $_POST["first_name"];
+    $last_name = $_POST["last_name"];
+    $birthday = $_POST["birthday"];
+    $email = $_POST["email"];
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+    $confirm_password = $_POST["confirm_password"];
 
-		// Connect to the MySQL database
-		$host = 'localhost';
-$dbname = 'blog_db1';
-$username = 'root';
-$password = '0123456789+aZ';
-		$conn = mysqli_connect($host, $user, $password_db, $database);
+    // Validate the form data
+    if($password !== $confirm_password) {
+        echo "Password and confirmation password do not match.";
+        exit();
+    }
 
-		// Check if the connection was successful
-		if(mysqli_connect_errno()) {
-			echo "Failed to connect to MySQL: " . mysqli_connect_error();
-			exit();
-		}
+    try {
+        // Check if the username already exists
+        $stmt = $conn->prepare("SELECT * FROM users WHERE username=:username");
+        $stmt->bindParam(':username', $username);
+        $stmt->execute();
+        if($stmt->rowCount() > 0) {
+            echo "Username already exists.";
+            exit();
+        }
 
-		// Check if the username already exists
-		$sql = "SELECT * FROM users WHERE username='$username'";
-		$result = mysqli_query($conn, $sql);
-		if(mysqli_num_rows($result) > 0) {
-			echo "Username already exists.";
-			exit();
-		}
+        // Insert the new user into the database
+        $stmt = $conn->prepare("INSERT INTO users (first_name, last_name, birthday, email, username, password) VALUES (:first_name, :last_name, :birthday, :email, :username, :password)");
+        $stmt->bindParam(':first_name', $first_name);
+        $stmt->bindParam(':last_name', $last_name);
+        $stmt->bindParam(':birthday', $birthday);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':username', $username);
+        $stmt->bindParam(':password', $password);
+        $stmt->execute();
 
-		// Insert the new user into the database
-		$sql = "INSERT INTO users (first_name, last_name, birthday, email, username, password) VALUES ('$first_name', '$last_name', '$birthday', '$email', '$username', '$password')";
-		if(mysqli_query($conn, $sql)) {
-			echo "Account created successfully. Redirecting to login page...";
-			header("Refresh: 3; url=login.php");
-			exit();
-		} else {
-			echo "Error: " . mysqli_error($conn);
-		}
+        echo "Account created successfully. Redirecting to login page...";
+        header("Refresh: 3; url=login.php");
+        exit();
 
-		// Close the database connection
-		mysqli_close($conn);
-	}
-	?>
+    } catch(PDOException $e) {
+        echo "Error: " . $e->getMessage();
+    }
+}
+?>
+
+
 
 
 <!DOCTYPE html>
