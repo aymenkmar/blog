@@ -1,6 +1,6 @@
 <?php
 require_once 'config.php';
-
+session_start();
 
 if (isset($_POST['submit'])) {
     $user_id = $_SESSION["id"];

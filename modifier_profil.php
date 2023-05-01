@@ -1,6 +1,6 @@
 <?php
 require_once 'config.php';
-
+session_start();
 
 $sql = "SELECT * FROM users WHERE id = :id";
 $stmt = $conn->prepare($sql);

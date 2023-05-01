@@ -1,6 +1,6 @@
 <?php
 require_once 'config.php';
-
+session_start();
 
 if (isset($_GET['id'])) {
     $publication_id = $_GET['id'];
@@ -37,7 +37,7 @@ if (isset($_GET['id'])) {
         }
     }
 } else {
-    header("Location: index.php");
+    header("Location: welcome.php");
 }
 ?>
 <!DOCTYPE html>

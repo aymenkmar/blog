@@ -1,6 +1,6 @@
 <?php
 require_once 'config.php';
-
+session_start();
 if (isset($_GET['id'])) {
     $publication_id = $_GET['id'];
 
@@ -28,6 +28,6 @@ if (isset($_GET['id'])) {
         echo "Erreur: " . $e->getMessage();
     }
 } else {
-    header("Location: index.php");
+    header("Location: welcome.php");
 }
 ?>

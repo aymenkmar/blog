@@ -3,11 +3,11 @@
 ?>
  <nav id="navbar" class="navbar">
         <ul>
-          <li><a class="nav-link scrollto" href="index.php">Home</a></li>
+          
           <?php 
           
           if((isset($_SESSION["login_active"]))){
-            session_start();
+            echo'<li><a class="nav-link scrollto" href="welcome.php">Home</a></li>';
             echo '<li><a href="posts.php">Posts</a></li>';
             echo ' <a href="logout.php">Logout</a></li>';
            
