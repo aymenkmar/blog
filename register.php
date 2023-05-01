@@ -17,10 +17,10 @@
 		}
 
 		// Connect to the MySQL database
-		$host = "localhost";
-		$user = "root";
-		$password_db = "Amine123!";
-		$database = "skskssk";
+		$host = 'localhost';
+$dbname = 'blog_db1';
+$username = 'root';
+$password = '0123456789+aZ';
 		$conn = mysqli_connect($host, $user, $password_db, $database);
 
 		// Check if the connection was successful
