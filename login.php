@@ -3,10 +3,7 @@
     session_start();
 
     // Check if the user is already logged in
-    if(!isset($_SESSION["username"])){
-        header("Location: index.php");
-        exit();
-    }
+
 
     // Process the login form when submitted
     if($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -17,7 +14,7 @@
         // Connect to the database
         $host = "localhost";
         $user = "root";
-        $pass = "Amine123!";
+        $pass = "0123456789+aZ";
         $dbname = "blog_db";
         $conn = mysqli_connect($host, $user, $pass, $dbname);
 
@@ -114,17 +111,16 @@
 
       <nav id="navbar" class="navbar">
         <ul>
-          <li><a class="nav-link scrollto" href="index.php">Home</a></li>
+          
           <?php 
        
-            if(!isset($_SESSION["username"])){
-                header("Location: index.php");
-                exit();
-            
-            echo '<li><a class="nav-link scrollto" href="login.php">Login</a></li>
-            <li><a class="nav-link scrollto" href="register.php">Register</a></li>';
-           
+            if(!isset($_SESSION["id"])){
+               echo'<li><a class="nav-link scrollto" href="index.php">Home</a></li>';
+            echo '<li><a class="nav-link scrollto" href="login.php">Login</a></li>';
+            echo'<li><a class="nav-link scrollto" href="register.php">Register</a></li>';
+            echo'<li><a class="nav-link scrollto" href="index.html#contact">Contact</a></li>';
            }else{
+            echo '<li><a class="nav-link scrollto" href="index.php">Home</a></li>';
             echo '<li><a href="posts.php">Posts</a></li>';
             $link = $_GET["link"];
             if($link == "logout")
@@ -136,12 +132,12 @@
                 exit();
             }
             echo '<li><a href="index.php?link=logout">Logout</a></li>';
-
+ echo'<li><a class="nav-link scrollto" href="index.html#contact">Contact</a></li>';
            
            }
           ?>
           
-          <li><a class="nav-link scrollto" href="index.html#contact">Contact</a></li>
+         
         </ul>
         <i class="bi bi-list mobile-nav-toggle d-none"></i>
       </nav><!-- .navbar -->

@@ -53,11 +53,14 @@ DROP TABLE IF EXISTS `publications`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `publications` (
   `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
   `title` varchar(255) NOT NULL,
   `content` text NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3;
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `publications_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -66,7 +69,7 @@ CREATE TABLE `publications` (
 
 LOCK TABLES `publications` WRITE;
 /*!40000 ALTER TABLE `publications` DISABLE KEYS */;
-INSERT INTO `publications` VALUES (1,'','aeazea','2023-04-29 17:59:52'),(2,'','hello','2023-04-29 18:00:56'),(3,'','hello cc','2023-04-29 18:03:11'),(4,'','Test amine','2023-04-29 18:09:36'),(5,'','Yzzy','2023-04-29 19:05:18'),(6,'','Uzuz','2023-04-29 19:05:25'),(7,'hi','hi','2023-04-30 11:46:45'),(8,'this is me','hello every body','2023-04-30 11:47:06');
+INSERT INTO `publications` VALUES (1,0,'','aeazea','2023-04-29 17:59:52'),(2,0,'','hello','2023-04-29 18:00:56'),(3,0,'','hello cc','2023-04-29 18:03:11'),(4,0,'','Test amine','2023-04-29 18:09:36'),(5,0,'','Yzzy','2023-04-29 19:05:18'),(6,0,'','Uzuz','2023-04-29 19:05:25'),(7,0,'hi','hi','2023-04-30 11:46:45'),(8,0,'this is me','hello every body','2023-04-30 11:47:06'),(9,2,'ffff','bjjjkkjb','2023-04-30 14:12:26'),(10,2,'azzaaz','azeaze','2023-04-30 14:12:43'),(11,1,'azeaze','azeaez','2023-04-30 15:02:38'),(12,1,'aymen','aymen','2023-04-30 15:25:52');
 /*!40000 ALTER TABLE `publications` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -109,4 +112,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-04-30 12:11:45
+-- Dump completed on 2023-04-30 15:37:38

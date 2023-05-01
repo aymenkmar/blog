@@ -1,57 +1,11 @@
 <?php
-	// Check if the form was submitted
-	if($_SERVER["REQUEST_METHOD"] == "POST") {
-		// Retrieve the form data
-		$first_name = $_POST["first_name"];
-		$last_name = $_POST["last_name"];
-		$birthday = $_POST["birthday"];
-		$email = $_POST["email"];
-		$username = $_POST["username"];
-		$password = $_POST["password"];
-		$confirm_password = $_POST["confirm_password"];
-
-		// Validate the form data
-		if($password !== $confirm_password) {
-			echo "Password and confirmation password do not match.";
-			exit();
-		}
-
-		// Connect to the MySQL database
-		$host = "localhost";
-		$user = "root";
-		$password_db = "0123456789+aZ";
-		$database = "blog_db";
-		$conn = mysqli_connect($host, $user, $password_db, $database);
-
-		// Check if the connection was successful
-		if(mysqli_connect_errno()) {
-			echo "Failed to connect to MySQL: " . mysqli_connect_error();
-			exit();
-		}
-
-		// Check if the username already exists
-		$sql = "SELECT * FROM users WHERE username='$username'";
-		$result = mysqli_query($conn, $sql);
-		if(mysqli_num_rows($result) > 0) {
-			echo "Username already exists.";
-			exit();
-		}
-
-		// Insert the new user into the database
-		$sql = "INSERT INTO users (first_name, last_name, birthday, email, username, password) VALUES ('$first_name', '$last_name', '$birthday', '$email', '$username', '$password')";
-		if(mysqli_query($conn, $sql)) {
-			echo "Account created successfully. Redirecting to login page...";
-			header("Refresh: 3; url=login.php");
-			exit();
-		} else {
-			echo "Error: " . mysqli_error($conn);
-		}
-
-		// Close the database connection
-		mysqli_close($conn);
-	}
-	?>
-
+        session_start();
+        // Check if user is logged in
+        if(!isset($_SESSION["username"])){
+            header("Location: index.php");
+            exit();
+        }
+    ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -100,6 +54,41 @@
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
 </head>
+<style>
+  .g-height-50 {
+    height: 50px;
+}
+
+.g-width-50 {
+    width: 50px !important;
+}
+
+@media (min-width: 0){
+    .g-pa-30 {
+        padding: 2.14286rem !important;
+    }
+}
+
+.g-bg-secondary {
+    background-color: #fafafa !important;
+}
+
+.u-shadow-v18 {
+    box-shadow: 0 5px 10px -6px rgba(0, 0, 0, 0.15);
+}
+
+.g-color-gray-dark-v4 {
+    color: #777 !important;
+}
+
+.g-font-size-12 {
+    font-size: 0.85714rem !important;
+}
+
+.media-comment {
+    margin-top:20px
+}
+</style>
 
 <body>
 
@@ -113,22 +102,23 @@
         <h1>HeroBiz<span>.</span></h1>
       </a>
 
-	  <nav id="navbar" class="navbar">
+      <nav id="navbar" class="navbar">
         <ul>
           <li><a class="nav-link scrollto" href="index.php">Home</a></li>
           <?php 
+          echo '<li><a href="posts.php">Posts</a></li>';
           if((isset($_SESSION["first_name"]))){
-			echo '<li><a href="posts.php">Posts</a></li>';
+      
             $link = $_GET["link"];
             if($link == "logout")
             {
-				session_start();
-                session_unset();
-                session_destroy();
-                header("Location: index.php");
-                exit();
+              session_start();
+              session_unset();
+              session_destroy();
+              header("Location: index.php");
+              exit();
             }
-            echo '<li><a href="index.php?link=logout">Logout</a></li>';
+            echo ' <a href="index.php?link=logout">Logout</a></li>';
            
            }else{
            
@@ -146,45 +136,77 @@
   </header><!-- End Header -->
 
   <main id="main">
+  <section id="about" class=" container about">
+    <div class="row">
+      <div class="col-md-6">
+  <h1>Ajouter une publication</h1>
+    <form action="ajouter_publication.php" method="post">
+    <input type="text" name="title" class="form-control" placeholder="Titre" required><br>
+    <textarea name="content" class="form-control" placeholder="Quoi de neuf ?" rows="4" cols="50" required></textarea><br>
+    <button type="submit" class="form-control" name="submit">Publier</button>
+  </form>
+  </div>
+  </div>
+          </section>
   <section id="about" class="about">
       <div class="container" data-aos="fade-up">
 
         <div class="section-header">
-          <h2>Registeration Page</h2>
+          <h2>Posts Page</h2>
           <?php if(isset($error)) { ?>
         <div><?php echo '<p>'.$error.'</p>' ;?></div>
     <?php } ?>
         </div>
         <div class="row g-4 g-lg-5" data-aos="fade-up" data-aos-delay="200">
-		<div class="col-lg-3">
-		</div>
-          <div class="col-lg-6">
-		  <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-		<label for="first_name">First Name:</label>
-		<input type="text" class="form-control" ="first_name" name="first_name" required><br><br>
-		<label for="last_name">Last Name:</label>
-		<input type="text" class="form-control" id="last_name" name="last_name" required><br><br>
-		<label for="birthday">Birthday:</label>
-		<input type="date" class="form-control" id="birthday" name="birthday" required><br><br>
-		<label for="email">Email:</label>
-		<input type="email" id="email"class="form-control" name="email" required><br><br>
-		<label for="username">Username:</label>
-		<input type="text" id="username" class="form-control"name="username" required><br><br>
-		<label for="password">Password:</label>
-		<input type="password" id="password" class="form-control" name="password" required><br><br>
-		<label for="confirm_password">Confirm Password:</label>
-		<input type="password"class="form-control"  id="confirm_password" name="confirm_password" required><br><br>
-		<center>
-		<input type="submit" class="btn btn-lg btn-info btn-block"value="Register">
-		</center>
-	</form>
-        
+          <div class="col-lg-12">
+		
+          <?php
+  require_once 'config.php';
+
+$sql = "SELECT publications.*, users.first_name, users.last_name FROM publications LEFT JOIN users ON publications.user_id = users.id where users.id = ".$_SESSION["id"]." ORDER BY created_at DESC";
+$stmt = $conn->prepare($sql);
+$stmt->execute();
+
+  while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+  
+  echo'     <div class="media g-mb-30 media-comment">';
+  echo'          <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">';
+  echo'           <div class="g-mb-15">';
+
+  if ($row['first_name'] !== NULL && $row['last_name'] !== NULL) {
+    echo '<h5 class="h5 g-color-gray-dark-v1 mb-0"><small>Publié par ' . htmlspecialchars($row['first_name']) . ' ' . htmlspecialchars($row['last_name']) . ' le ' . $row['created_at'] . '</small></h5>';
+} else {
+    echo '<h5 class="h5 g-color-gray-dark-v1 mb-0"><small>Publié le ' . $row['created_at'] . '</small>';
+}
+  echo'           </div>';
+  echo'           <p>'.htmlspecialchars($row['title']) .'</p>';   
+  echo'           <p>'.htmlspecialchars($row['content']) .'</p>';   
+  echo'           <ul class="list-inline d-sm-flex my-0">';
+  echo'             <li class="list-inline-item g-mr-20">';
+  echo'               <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">';
+  echo'                 <i class="fa fa-thumbs-up g-pos-rel g-top-1 g-mr-3"></i>
+               178
+                </a>
+           </li>';
+  echo'             <li class="list-inline-item g-mr-20">';
+  echo'               <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">';
+  echo'                 <i class="fa fa-thumbs-down g-pos-rel g-top-1 g-mr-3"></i>
+                  34
+                </a>
+              </li>';
+ 
+  echo'           </ul>';
+  echo'         </div>';
+  echo'     </div>';
+
+  }
+  
+  ?>
         </div>
-		<div class="col-lg-3">
-		</div>
 
       </div>
     </section><!-- End About Section -->
+    
   </main>
   <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">
