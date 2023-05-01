@@ -35,5 +35,7 @@ if (!$user) {
     <p><strong>Email :</strong> <?php echo htmlspecialchars($user['email']); ?></p>
     <p><strong>Nom d'utilisateur :</strong> <?php echo htmlspecialchars($user['username']); ?></p>
 
+    <a href="modifier_profil.php">Modifier mon profil</a>
+
 </body>
 </html>
