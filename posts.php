@@ -203,13 +203,19 @@ $stmt->execute();
     </li>';
 
     if (isset($_SESSION['id']) && $_SESSION['id'] == $row['user_id']) {
-        echo '<li class="list-inline-item g-mr-20">';
-        echo '<a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="modifier_publication.php?id=' . $row['id'] . '">';
-        echo '<i class="fa fa-pencil g-pos-rel g-top-1 g-mr-3"></i>
-            Modifier
-            </a>
-        </li>';
-    }
+    echo '<li class="list-inline-item g-mr-20">';
+    echo '<a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="modifier_publication.php?id=' . $row['id'] . '">';
+    echo '<i class="fa fa-pencil g-pos-rel g-top-1 g-mr-3"></i>
+        Modifier
+        </a>
+    </li>';
+    echo '<li class="list-inline-item g-mr-20">';
+    echo '<a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="supprimer_publication.php?id=' . $row['id'] . '">';
+    echo '<i class="fa fa-trash g-pos-rel g-top-1 g-mr-3"></i>
+        Supprimer
+        </a>
+    </li>';
+}
 
     echo '</ul>';
     echo '</div>';
