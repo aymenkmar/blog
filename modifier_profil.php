@@ -1,11 +1,6 @@
 <?php
 require_once 'config.php';
-session_start();
 
-if (!isset($_SESSION["login_active"])) {
-    header("Location: login.php");
-    exit();
-}
 
 $sql = "SELECT * FROM users WHERE id = :id";
 $stmt = $conn->prepare($sql);

@@ -1,11 +1,6 @@
 <?php
 require_once 'config.php';
-session_start();
 
-if (!isset($_SESSION["id"])) {
-    header("Location: login.php");
-    exit();
-}
 
 if (isset($_POST['submit'])) {
     $user_id = $_SESSION["id"];

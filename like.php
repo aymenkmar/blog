@@ -1,11 +1,5 @@
 <?php
 require_once 'config.php';
-session_start();
-
-if (!isset($_SESSION["id"])) {
-    header("Location: login.php");
-    exit();
-}
 
 if (isset($_POST['likeme'])) {
     $id = $_POST['post_id'];

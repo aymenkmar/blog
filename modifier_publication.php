@@ -1,11 +1,6 @@
 <?php
 require_once 'config.php';
-session_start();
 
-if (!isset($_SESSION["login_active"])) {
-    header("Location: login.php");
-    exit();
-}
 
 if (isset($_GET['id'])) {
     $publication_id = $_GET['id'];

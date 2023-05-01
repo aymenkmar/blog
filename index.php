@@ -1,10 +1,5 @@
 <?php
-        session_start();
-        // Check if user is logged in
-        if(!isset($_SESSION["login_active"])){
-            header("Location: index.php");
-            exit();
-        }
+      
     ?>
 
 <!DOCTYPE html>
