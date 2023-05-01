@@ -10,9 +10,9 @@ if (!isset($_SESSION["id"])) {
 if (isset($_GET['id'])) {
     $publication_id = $_GET['id'];
 
-    $sql = "SELECT * FROM publications WHERE id = :id AND user_id = :user_id";
+    $sql = "SELECT * FROM publications WHERE post_id = :id AND user_id = :user_id";
     $stmt = $conn->prepare($sql);
-    $stmt->bindParam(':id', $publication_id);
+    $stmt->bindParam(':post_id', $publication_id);
     $stmt->bindParam(':user_id', $_SESSION['id']);
     $stmt->execute();
     $publication = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -27,11 +27,11 @@ if (isset($_GET['id'])) {
         $content = $_POST['content'];
 
         try {
-            $sql = "UPDATE publications SET title = :title, content = :content, updated_at = NOW() WHERE id = :id";
+            $sql = "UPDATE publications SET title = :title, content = :content, updated_at = NOW() WHERE post_id = :id";
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(':title', $title);
             $stmt->bindParam(':content', $content);
-            $stmt->bindParam(':id', $publication_id);
+            $stmt->bindParam(':post_id', $publication_id);
 
             $stmt->execute();
 

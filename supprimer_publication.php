@@ -12,9 +12,9 @@ if (isset($_GET['id'])) {
     $user_id = $_SESSION["id"];
 
     try {
-        $sql = "DELETE FROM publications WHERE id = :id AND user_id = :user_id";
+        $sql = "DELETE FROM publications WHERE post_id = :id AND user_id = :user_id";
         $stmt = $conn->prepare($sql);
-        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':post_id', $id);
         $stmt->bindParam(':user_id', $user_id);
 
         $stmt->execute();

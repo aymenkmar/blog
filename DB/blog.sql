@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.32, for Linux (x86_64)
 --
--- Host: localhost    Database: blog_db
+-- Host: localhost    Database: skskssk
 -- ------------------------------------------------------
 -- Server version	8.0.32-0ubuntu0.22.04.2
 

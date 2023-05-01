@@ -136,18 +136,6 @@
   </header><!-- End Header -->
 
   <main id="main">
-  <section id="about" class=" container about">
-    <div class="row">
-      <div class="col-md-6">
-  <h1>Ajouter une publication</h1>
-    <form action="ajouter_publication.php" method="post">
-    <input type="text" name="title" class="form-control" placeholder="Titre" required><br>
-    <textarea name="content" class="form-control" placeholder="Quoi de neuf ?" rows="4" cols="50" required></textarea><br>
-    <button type="submit" class="form-control" name="submit">Publier</button>
-  </form>
-  </div>
-  </div>
-          </section>
   <section id="about" class="about">
       <div class="container" data-aos="fade-up">
 
@@ -163,12 +151,11 @@
           <?php
   require_once 'config.php';
 
-$sql = "SELECT publications.*, users.first_name, users.last_name FROM publications LEFT JOIN users ON publications.user_id = users.id ORDER BY created_at DESC";
+$sql = "SELECT * FROM publications LEFT JOIN users ON publications.user_id = users.id WHERE publications.reports < 6 ORDER BY created_at DESC";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 
   while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-  
   echo'     <div class="media g-mb-30 media-comment">';
   echo'          <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">';
   echo'           <div class="g-mb-15">';
@@ -183,15 +170,17 @@ $stmt->execute();
   echo'           <p>'.htmlspecialchars($row['content']) .'</p>';   
   echo'           <ul class="list-inline d-sm-flex my-0">';
   echo'             <li class="list-inline-item g-mr-20">';
-  echo'               <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">';
-  echo'                 <i class="fa fa-thumbs-up g-pos-rel g-top-1 g-mr-3"></i>
-               178
-                </a>
+  echo' 
+                <form method="post" action="like.php">
+                <input type="hidden" name="likes" value="'. $row['likes'].'">
+                <input type="hidden" name="post_id" value="'. $row['post_id'] .'">
+                <input type="submit"  name="likeme" value="Like">
+                </form>
            </li>';
   echo'             <li class="list-inline-item g-mr-20">';
   echo'               <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">';
   echo'                 <i class="fa fa-thumbs-down g-pos-rel g-top-1 g-mr-3"></i>
-                  34
+                  Dislikes
                 </a>
               </li>';
  
