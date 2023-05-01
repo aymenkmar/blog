@@ -105,6 +105,7 @@
       <nav id="navbar" class="navbar">
         <ul>
           <li><a class="nav-link scrollto" href="index.php">Home</a></li>
+          <li><a class="nav-link scrollto" href="profile.php">Profile</a></li>
           <?php 
           echo '<li><a href="posts.php">Posts</a></li>';
           if((isset($_SESSION["first_name"]))){
