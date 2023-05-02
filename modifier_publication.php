@@ -8,7 +8,7 @@ if (isset($_GET['id'])) {
     $sql = "SELECT * FROM publications WHERE post_id = :post_id AND user_id = :user_id";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':post_id', $publication_id);
-    $stmt->bindParam(':user_id', $_SESSION['id']);
+    $stmt->bindParam(':user_id', $_SESSION['login_active']);
     $stmt->execute();
     $publication = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -27,7 +27,7 @@ if (isset($_GET['id'])) {
             $stmt->bindParam(':title', $title);
             $stmt->bindParam(':content', $content);
             $stmt->bindParam(':post_id', $publication_id);
-            $stmt->bindParam(':user_id', $_SESSION['id']);
+            $stmt->bindParam(':user_id', $_SESSION['login_active']);
 
             $stmt->execute();
 

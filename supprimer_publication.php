@@ -7,7 +7,7 @@ if (isset($_GET['id'])) {
     $sql = "SELECT * FROM publications WHERE post_id = :id AND user_id = :user_id";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':id', $publication_id);
-    $stmt->bindParam(':user_id', $_SESSION['id']);
+    $stmt->bindParam(':user_id', $_SESSION['login_active']);
     $stmt->execute();
     $publication = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -20,7 +20,7 @@ if (isset($_GET['id'])) {
         $sql = "DELETE FROM publications WHERE post_id = :id AND user_id = :user_id";
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':id', $publication_id);
-        $stmt->bindParam(':user_id', $_SESSION['id']);
+        $stmt->bindParam(':user_id', $_SESSION['login_active']);
         $stmt->execute();
 
         header("Location: posts.php");

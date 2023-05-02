@@ -171,7 +171,7 @@ $stmt->execute();
         </a>
     </li>';
 
-    if (isset($_SESSION['id']) && $_SESSION['id'] == $row['user_id']) {
+    if (isset($_SESSION['login_active']) && $_SESSION['login_active'] == $row['user_id']) {
     echo '<li class="list-inline-item g-mr-20">';
     echo '<a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="modifier_publication.php?id=' . $row['post_id'] . '">';
     echo '<i class="fa fa-pencil g-pos-rel g-top-1 g-mr-3"></i>

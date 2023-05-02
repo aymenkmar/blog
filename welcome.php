@@ -1,5 +1,6 @@
 <?php
     session_start();
+    
     ?>
 
 <!DOCTYPE html>
@@ -119,6 +120,11 @@
           <?php
   require_once 'config.php';
 
+
+
+
+
+
 $sql = "SELECT * FROM publications LEFT JOIN users ON publications.user_id = users.id WHERE publications.reports < 6 ORDER BY created_at DESC";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
@@ -138,30 +144,41 @@ $stmt->execute();
   echo'           <p>'.htmlspecialchars($row['content']) .'</p>';   
   echo'           <ul class="list-inline d-sm-flex my-0">';
   echo'             <li class="list-inline-item g-mr-20">';
-  echo' 
-                <form method="post" action="like.php">
-                <input type="hidden" name="likes" value="'. $row['likes'].'">
-                <input type="hidden" name="post_id" value="'. $row['post_id'] .'">
-                <input type="submit"  name="likeme" value="Like">
-                </form>
-           </li>';
-   echo'             <li class="list-inline-item g-mr-20">';
-  echo'               <a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">';
-  echo'                 <i class="fa fa-thumbs-down g-pos-rel g-top-1 g-mr-3"></i>
-                  <form method="post" action="like.php">
-                <input type="hidden" name="dislikes" value="'. $row['dislikes'].'">
-                <input type="hidden" name="post_id" value="'. $row['post_id'] .'">
-                <input type="submit"  name="dislikeme" value="Dislike">
-                </form>
-                </a>
-              </li>';
-              
- 
-  echo'           </ul>';
-  echo'         </div>';
-  echo'     </div>';
-
+  echo '<form method="post" action="like.php">';
+  echo '<input type="hidden" name="likes" value="'. $row['likes'].'">';
+  echo '<input type="hidden" name="post_id" value="'. $row['post_id'] .'">';
+  echo '<input type="submit"  name="likeme" value="Like">';
+  echo '</form>';
+  echo '</li>';
+  echo '<li class="list-inline-item g-mr-20">';
+  echo '<a class="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover" href="#!">';
+  echo '<i class="fa fa-thumbs-down g-pos-rel g-top-1 g-mr-3"></i>';
+  echo '<form method="post" action="like.php">';
+  echo '<input type="hidden" name="dislikes" value="'. $row['dislikes'].'">';
+  echo '<input type="hidden" name="post_id" value="'. $row['post_id'] .'">';
+  echo '<input type="submit"  name="dislikeme" value="Dislike">';
+  echo '</form>';
+  echo '</a>';
+  echo '</li>';
+  echo '<li class="list-inline-item g-mr-20">';
+  echo '<form method="post" action="report.php">';
+  echo '<input type="hidden" name="post_id" value="'. $row['post_id'] .'">';
+  echo '<input type="submit"  name="report" value="Signaler">';
+  echo '</form>';
+  echo '</li>';
+  echo '</ul>';
+  echo '</div>';
+  echo '</div>';
   }
+  
+   // Vérifier si la publication a été signalée trois fois
+    $reports = $row['reports'];
+    if ($reports >= 3) {
+        // Masquer la publication sur la page d'accueil
+        $sql = "UPDATE publications SET visible = 0 WHERE post_id = ?";
+        $stmt2 = $conn->prepare($sql);
+        $stmt2->execute([$row['post_id']]);
+    }
   
   ?>
         </div>
