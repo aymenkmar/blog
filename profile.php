@@ -3,7 +3,7 @@ require_once 'config.php';
 session_start();
 $sql = "SELECT * FROM users WHERE id = :id";
 $stmt = $conn->prepare($sql);
-$stmt->bindParam(':id', $_SESSION['id']);
+$stmt->bindParam(':id', $_SESSION['login_active']);
 $stmt->execute();
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -106,26 +106,26 @@ if (!$user) {
           <div class="form-group">
             <label class="col-sm-2 control-label">Prénom : </label>
             <div class="col-sm-10">
-            <input type="text" class="form-control" name="first_name" id="first_name" value="<?php echo htmlspecialchars($user['first_name']); ?>" required>
+            <input type="text" class="form-control" name="first_name" id="first_name" value="<?php echo htmlspecialchars($user['first_name']); ?>" readonly>
             </div>
           </div>
           <div class="form-group">
             <label class="col-sm-2 control-label">Nom :</label>
             <div class="col-sm-10">
-            <input type="text" name="last_name"class="form-control" id="last_name" value="<?php echo htmlspecialchars($user['last_name']); ?>" required>
+            <input type="text" name="last_name"class="form-control" id="last_name" value="<?php echo htmlspecialchars($user['last_name']); ?>" readonly>
             </div>
           </div>
           <div class="form-group">
             <label class="col-sm-2 control-label">Date de naissance :</label>
             <div class="col-sm-10">
-            <input type="date" name="birthday" class="form-control"id="birthday" value="<?php echo htmlspecialchars($user['birthday']); ?>" required>
+            <input type="date" name="birthday" class="form-control"id="birthday" value="<?php echo htmlspecialchars($user['birthday']); ?>" readonly>
             </div>
           </div>
         
         <div class="form-group">
             <label class="col-sm-2 control-label">Adresse e-mail :</label>
             <div class="col-sm-10">
-            <input type="email" name="email" class="form-control"id="email" value="<?php echo htmlspecialchars($user['email']); ?>" required>
+            <input type="email" name="email" class="form-control"id="email" value="<?php echo htmlspecialchars($user['email']); ?>" readonly>
             </div>
           </div>
         </div>
@@ -133,17 +133,11 @@ if (!$user) {
         <div class="form-group">
             <label class="col-sm-2 control-label">Nom d'utilisateur :</label>
             <div class="col-sm-10">
-            <input type="text" name="username" class="form-control" id="username" value="<?php echo htmlspecialchars($user['username']); ?>" required>
+            <input type="text" name="username" class="form-control" id="username" value="<?php echo htmlspecialchars($user['username']); ?>" readonly>
             </div>
           </div>
         </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">Mot de passe :</label>
-            <div class="col-sm-10">
-            <input type="password" name="password" class="form-control" id="password">
-            </div>
-            
-          </div>
+        
         </div>
        
       </div>

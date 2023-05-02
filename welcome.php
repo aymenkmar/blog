@@ -110,6 +110,7 @@
 
         <div class="section-header">
           <h2>Posts Page</h2>
+          <h2>Profile Page</h2>
           <?php if(isset($error)) { ?>
         <div><?php echo '<p>'.$error.'</p>' ;?></div>
     <?php } ?>

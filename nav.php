@@ -9,6 +9,7 @@
           if((isset($_SESSION["login_active"]))){
             echo'<li><a class="nav-link scrollto" href="welcome.php">Home</a></li>';
             echo '<li><a href="posts.php">Posts</a></li>';
+            echo '<li><a href="profile.php">Profile</a></li>';
             echo ' <a href="logout.php">Logout</a></li>';
            
            }else{

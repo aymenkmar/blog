@@ -4,7 +4,7 @@ session_start();
 
 $sql = "SELECT * FROM users WHERE id = :id";
 $stmt = $conn->prepare($sql);
-$stmt->bindParam(':id', $_SESSION['id']);
+$stmt->bindParam(':id', $_SESSION['login_active']);
 $stmt->execute();
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "SELECT * FROM users WHERE username = :username AND id <> :id";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':username', $username);
-    $stmt->bindParam(':id', $_SESSION['id']);
+    $stmt->bindParam(':id', $_SESSION['login_active']);
     $stmt->execute();
 
     if ($stmt->fetch()) {
@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bindParam(':birthday', $birthday);
     $stmt->bindParam(':email', $email);
     $stmt->bindParam(':username', $username);
-    $stmt->bindParam(':id', $_SESSION['id']);
+    $stmt->bindParam(':id', $_SESSION['login_active']);
 
     if ($stmt->execute()) {
         header("Location: profile.php");
