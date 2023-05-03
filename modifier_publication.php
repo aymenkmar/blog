@@ -46,7 +46,7 @@ if (isset($_GET['id'])) {
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>HeroBiz Bootstrap Template - Home 1</title>
+  <title>Script Army Bootstrap Template - Home 1</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -79,9 +79,9 @@ if (isset($_GET['id'])) {
   <link href="assets/css/main.css" rel="stylesheet">
 
   <!-- =======================================================
-  * Template Name: HeroBiz
+  * Template Name: Script Army
   * Updated: Mar 10 2023 with Bootstrap v5.2.3
-  * Template URL: https://bootstrapmade.com/herobiz-bootstrap-business-template/
+  * Template URL: https://bootstrapmade.com/Script Army-bootstrap-business-template/
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
@@ -97,7 +97,7 @@ if (isset($_GET['id'])) {
       <a href="index.html" class="logo d-flex align-items-center scrollto me-auto me-lg-0">
         <!-- Uncomment the line below if you also wish to use an image logo -->
         <!-- <img src="assets/img/logo.png" alt=""> -->
-        <h1>HeroBiz<span>.</span></h1>
+        <h1>Script Army<span>.</span></h1>
       </a>
 
       
@@ -109,15 +109,26 @@ if (isset($_GET['id'])) {
 
   <main id="main">
  
-
-  <section id="about" class="about">
-  <h1>Modifier la publication</h1>
-<form action="modifier_publication.php?id=<?php echo $publication_id; ?>" method="post">
-    <input type="text" name="title" placeholder="Titre" value="<?php echo htmlspecialchars($publication['title']); ?>" required><br>
-    <textarea name="content" placeholder="Quoi de neuf ?" rows="4" cols="50" required><?php echo htmlspecialchars($publication['content']); ?></textarea><br>
-    <button type="submit" name="submit">Mettre à jour</button>
-</form>
-  </section>
+<section id="about" class="about">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <h1 class="text-center mb-4">Modifier la publication</h1>
+                <form action="modifier_publication.php?id=<?php echo $publication_id; ?>" method="post">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Titre</label>
+                        <input type="text" name="title" class="form-control" id="title" value="<?php echo htmlspecialchars($publication['title']); ?>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="content" class="form-label">Quoi de neuf ?</label>
+                        <textarea name="content" class="form-control" id="content" rows="4" cols="50" required><?php echo htmlspecialchars($publication['content']); ?></textarea>
+                    </div>
+                    <button type="submit" name="submit" class="btn btn-primary">Mettre à jour</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
     
   </main>
   <!-- ======= Footer ======= -->
@@ -129,7 +140,7 @@ if (isset($_GET['id'])) {
 
           <div class="col-lg-3 col-md-6">
             <div class="footer-info">
-              <h3>HeroBiz</h3>
+              <h3>Script Army</h3>
               <p>
                 A108 Adam Street <br>
                 NY 535022, USA<br><br>
@@ -179,13 +190,13 @@ if (isset($_GET['id'])) {
 
         <div class="d-flex flex-column align-items-center align-items-lg-start">
           <div class="copyright">
-            &copy; Copyright <strong><span>HeroBiz</span></strong>. All Rights Reserved
+            &copy; Copyright <strong><span>Script Army</span></strong>. All Rights Reserved
           </div>
           <div class="credits">
             <!-- All the links in the footer should remain intact. -->
             <!-- You can delete the links only if you purchased the pro version. -->
             <!-- Licensing information: https://bootstrapmade.com/license/ -->
-            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/herobiz-bootstrap-business-template/ -->
+            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/Script Army-bootstrap-business-template/ -->
             Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
           </div>
         </div>

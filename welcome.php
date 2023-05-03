@@ -10,7 +10,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>HeroBiz Bootstrap Template - Home 1</title>
+  <title>Script Army</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -43,9 +43,9 @@
   <link href="assets/css/main.css" rel="stylesheet">
 
   <!-- =======================================================
-  * Template Name: HeroBiz
+  * Template Name: Script Army
   * Updated: Mar 10 2023 with Bootstrap v5.2.3
-  * Template URL: https://bootstrapmade.com/herobiz-bootstrap-business-template/
+  * Template URL: https://bootstrapmade.com/Script Army-bootstrap-business-template/
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
@@ -92,10 +92,10 @@
   <header id="header" class="header fixed-top" data-scrollto-offset="0">
     <div class="container-fluid d-flex align-items-center justify-content-between">
 
-      <a href="index.php" class="logo d-flex align-items-center scrollto me-auto me-lg-0">
+      <a href="welcome.php" class="logo d-flex align-items-center scrollto me-auto me-lg-0">
         <!-- Uncomment the line below if you also wish to use an image logo -->
         <!-- <img src="assets/img/logo.png" alt=""> -->
-        <h1>HeroBiz<span>.</span></h1>
+        <h1>Script Army<span>.</span></h1>
       </a>
       <?php
           include 'nav.php' ;
@@ -110,7 +110,6 @@
 
         <div class="section-header">
           <h2>Posts Page</h2>
-          <h2>Profile Page</h2>
           <?php if(isset($error)) { ?>
         <div><?php echo '<p>'.$error.'</p>' ;?></div>
     <?php } ?>
@@ -135,11 +134,12 @@ $stmt->execute();
   echo'          <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">';
   echo'           <div class="g-mb-15">';
 
-  if ($row['first_name'] !== NULL && $row['last_name'] !== NULL) {
-    echo '<h5 class="h5 g-color-gray-dark-v1 mb-0"><small>Publié par ' . htmlspecialchars($row['first_name']) . ' ' . htmlspecialchars($row['last_name']) . ' le ' . $row['created_at'] . '</small></h5>';
+if ($row['first_name'] !== NULL && $row['last_name'] !== NULL) {
+    echo '<h5 class="h5 g-color-gray-dark-v1 mb-0"><small>Publié par <a href="profile.php?id=' . $row['user_id'] . '">' . htmlspecialchars($row['first_name']) . ' ' . htmlspecialchars($row['last_name']) . '</a> le ' . $row['created_at'] . '</small></h5>';
 } else {
     echo '<h5 class="h5 g-color-gray-dark-v1 mb-0"><small>Publié le ' . $row['created_at'] . '</small>';
 }
+
   echo'           </div>';
   echo'           <p>'.htmlspecialchars($row['title']) .'</p>';   
   echo'           <p>'.htmlspecialchars($row['content']) .'</p>';   
@@ -148,7 +148,8 @@ $stmt->execute();
   echo '<form method="post" action="like.php">';
   echo '<input type="hidden" name="likes" value="'. $row['likes'].'">';
   echo '<input type="hidden" name="post_id" value="'. $row['post_id'] .'">';
-  echo '<input type="submit"  name="likeme" value="Like">';
+  
+  echo '<button type="submit" name="likeme" class="btn btn-primary btn-like"><i class="bi bi-hand-thumbs-up"></i> ('. $row['likes'] .')</button>';
   echo '</form>';
   echo '</li>';
   echo '<li class="list-inline-item g-mr-20">';
@@ -157,14 +158,15 @@ $stmt->execute();
   echo '<form method="post" action="like.php">';
   echo '<input type="hidden" name="dislikes" value="'. $row['dislikes'].'">';
   echo '<input type="hidden" name="post_id" value="'. $row['post_id'] .'">';
-  echo '<input type="submit"  name="dislikeme" value="Dislike">';
+  
+  echo '<button type="submit" name="dislikeme" class="btn btn-secondary btn-like"><i class="bi bi-hand-thumbs-down"></i>('. $row['dislikes'] .')</button>';
   echo '</form>';
   echo '</a>';
   echo '</li>';
   echo '<li class="list-inline-item g-mr-20">';
   echo '<form method="post" action="report.php">';
   echo '<input type="hidden" name="post_id" value="'. $row['post_id'] .'">';
-  echo '<input type="submit"  name="report" value="Signaler">';
+  echo '<button type="button" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#exampleModal">Signaler ('. $row['reports'] .')</button>';
   echo '</form>';
   echo '</li>';
   echo '</ul>';
@@ -197,7 +199,7 @@ $stmt->execute();
 
           <div class="col-lg-3 col-md-6">
             <div class="footer-info">
-              <h3>HeroBiz</h3>
+              <h3>Script Army</h3>
               <p>
                 A108 Adam Street <br>
                 NY 535022, USA<br><br>
@@ -247,13 +249,13 @@ $stmt->execute();
 
         <div class="d-flex flex-column align-items-center align-items-lg-start">
           <div class="copyright">
-            &copy; Copyright <strong><span>HeroBiz</span></strong>. All Rights Reserved
+            &copy; Copyright <strong><span>Script Army</span></strong>. All Rights Reserved
           </div>
           <div class="credits">
             <!-- All the links in the footer should remain intact. -->
             <!-- You can delete the links only if you purchased the pro version. -->
             <!-- Licensing information: https://bootstrapmade.com/license/ -->
-            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/herobiz-bootstrap-business-template/ -->
+            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/Script Army-bootstrap-business-template/ -->
             Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
           </div>
         </div>

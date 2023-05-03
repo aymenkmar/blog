@@ -32,6 +32,52 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Le nom d'utilisateur existe déjà.";
         exit();
     }
+    
+    
+    
+    
+    
+    
+    
+    $profile_photo = $_FILES["profile_photo"];
+    if ($profile_photo["error"] == UPLOAD_ERR_OK) {
+        $filename = basename($profile_photo["name"]);
+        $file_ext = pathinfo($filename, PATHINFO_EXTENSION);
+        $allowed_exts = array("jpg", "jpeg", "png", "gif");
+        if (in_array(strtolower($file_ext), $allowed_exts)) {
+            $file_tmp_name = $profile_photo["tmp_name"];
+            $img = imagecreatefromstring(file_get_contents($file_tmp_name));
+            $width = imagesx($img);
+            $height = imagesy($img);
+            $new_width = 400;
+            $new_height = 400;
+            $new_img = imagecreatetruecolor($new_width, $new_height);
+            imagecopyresampled($new_img, $img, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
+            $profile_photo_path = "/home/ubuntu/blog/httpdocs/assets/img/profile/" . $filename;
+            imagejpeg($new_img, $profile_photo_path, 80);
+            imagedestroy($new_img);
+            $sql = "UPDATE users SET profile_photo = :profile_photo WHERE id = :id";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':profile_photo', $filename);
+            $stmt->bindParam(':id', $_SESSION['login_active']);
+            $stmt->execute();
+        } else {
+            echo "Le format de fichier n'est pas autorisé.";
+            exit();
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     // Mettez à jour les informations de l'utilisateur
     if (!empty($password)) {
@@ -59,6 +105,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Erreur lors de la mise à jour du profil.";
     }
 }
+
+
 ?>
 
 
@@ -69,7 +117,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>HeroBiz Bootstrap Template - Home 1</title>
+  <title>Script Army Bootstrap Template - Home 1</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -102,9 +150,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <link href="assets/css/main.css" rel="stylesheet">
 
   <!-- =======================================================
-  * Template Name: HeroBiz
+  * Template Name: Script Army
   * Updated: Mar 10 2023 with Bootstrap v5.2.3
-  * Template URL: https://bootstrapmade.com/herobiz-bootstrap-business-template/
+  * Template URL: https://bootstrapmade.com/Script Army-bootstrap-business-template/
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
@@ -117,10 +165,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <header id="header" class="header fixed-top" data-scrollto-offset="0">
     <div class="container-fluid d-flex align-items-center justify-content-between">
 
-      <a href="index.html" class="logo d-flex align-items-center scrollto me-auto me-lg-0">
+      <a href="welcome.php" class="logo d-flex align-items-center scrollto me-auto me-lg-0">
         <!-- Uncomment the line below if you also wish to use an image logo -->
         <!-- <img src="assets/img/logo.png" alt=""> -->
-        <h1>HeroBiz<span>.</span></h1>
+        <h1>Script Army<span>.</span></h1>
       </a>
 
     
@@ -140,17 +188,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <div class="container bootstrap snippets bootdeys">
 <div class="row">
   <div class="col-xs-12 col-sm-9">
-    <form class="form-horizontal" action="modifier_profil.php" method="post">
+    <form class="form-horizontal" action="modifier_profil.php" method="post" enctype="multipart/form-data">
+
         <div class="panel panel-default">
           <div class="panel-body text-center">
+          
+          <?php if (!empty($user['profile_photo'])): ?>
+      <img src="/assets/img/profile/<?php echo htmlspecialchars($user['profile_photo']); ?>" class="img-circle profile-avatar" alt="User avatar">
+    <?php else: ?>
            <img src="https://bootdey.com/img/Content/avatar/avatar6.png" class="img-circle profile-avatar" alt="User avatar">
+          <?php endif; ?>
           </div>
         </div>
+        
+        
+        
+        
+        
+        
+        
       <div class="panel panel-default">
         <div class="panel-heading">
         <h4 class="panel-title">User info</h4>
         </div>
         <div class="panel-body">
+        
+        
+        
+<div class="form-group">
+  <label class="col-sm-2 control-label">Photo de profil :</label>
+  <div class="col-sm-10">
+    <input type="file" name="profile_photo" class="form-control" accept="image/*">
+  </div>
+</div>
+        
+        
+        
+        
           
           <div class="form-group">
             <label class="col-sm-2 control-label">Prénom : </label>
@@ -212,7 +286,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
           <div class="col-lg-3 col-md-6">
             <div class="footer-info">
-              <h3>HeroBiz</h3>
+              <h3>Script Army</h3>
               <p>
                 A108 Adam Street <br>
                 NY 535022, USA<br><br>
@@ -262,13 +336,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <div class="d-flex flex-column align-items-center align-items-lg-start">
           <div class="copyright">
-            &copy; Copyright <strong><span>HeroBiz</span></strong>. All Rights Reserved
+            &copy; Copyright <strong><span>Script Army</span></strong>. All Rights Reserved
           </div>
           <div class="credits">
             <!-- All the links in the footer should remain intact. -->
             <!-- You can delete the links only if you purchased the pro version. -->
             <!-- Licensing information: https://bootstrapmade.com/license/ -->
-            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/herobiz-bootstrap-business-template/ -->
+            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/Script Army-bootstrap-business-template/ -->
             Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
           </div>
         </div>
